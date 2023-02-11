@@ -19,8 +19,11 @@
     <div v-if=" (resume.mail == ''|| resume.erMail.length > 0) && (resume.erPhone.length > 0 || resume.phone == '')">
       <p class="fs-5 form-input my-3">Ваши контакты</p>
     </div>
-    <p class="fs-5 form-input my-3" v-else-if="resume.erPhone.length > 0 && resume.erMail.length == 0">{{ resume.mail }}</p>
-    <p class="fs-5 form-input my-3" v-else-if="resume.erPhone.length == 0 && resume.erMail.length > 0">тел.: +7{{ resume.phone }}</p>
+    <p class="fs-5 form-input my-3" v-else-if="resume.erPhone.length > 0 && resume.erMail.length == 0">{{
+        resume.mail
+      }}</p>
+    <p class="fs-5 form-input my-3" v-else-if="resume.erPhone.length == 0 && resume.erMail.length > 0">тел.:
+      +7{{ resume.phone }}</p>
     <p class="fs-5 form-input my-3" v-else>{{ resume.mail }} (тел.: +7{{ resume.phone }})</p>
 
     <p class="fs-5 form-input my-3">Родился {{ resume.bDate }}. Проживает в г. {{ resume.city }}</p>
@@ -30,20 +33,100 @@
     <p class="fs-5 ">Навыки:</p>
     <p class="fs-5 form-input mt-2 mb-3" style="word-break: break-all;">{{ resume.skills }}</p>
 
-    <p class="fs-5 ">Образование:</p>
-    <p class="fs-5 form-input mt-2 mb-3">{{ resume.education }}</p>
+    <div
+        v-if="resume.education.length ===1"
+        class="card-education"
+    >
+      <p class="fs-5 ">Образование:</p>
+      <p class="fs-5 form-input mt-2 mb-3">{{ resume.education[0].type }}</p>
+      <template
+          v-if="resume.education[0].type !== 'Среднее'"
+      >
+        <p class="fs-5 ">Место получения:</p>
+        <p class="fs-5 form-input mt-2 mb-3">
+          Институт: {{ resume.education[0].institution }}
+          <br>
+          Факультет: {{ resume.education[0].faculty }}
+          <br>
+          Специализация: {{ resume.education[0].specialization }}
+          <br>
+          Год окончания: {{ resume.education[0].Year_ending }}
+        </p>
 
-    <div v-if="resume.education != 'Среднее'">
 
-      <p class="fs-5 ">Место получения образования:</p>
-      <p class="fs-5 form-input mt-2 mb-3">Учебное заведение: {{ resume.institution }}</p>
-      <p class="fs-5 form-input my-3">Факультет: {{ resume.faculty }}</p>
-      <p class="fs-5 form-input my-3">Специализация: {{ resume.specialization }}</p>
-      <p class="fs-5 form-input my-3">Год окончания: {{ resume.Year_ending }}</p>
+        <!--        <p class="fs-5 ">Факультет:</p>-->
+        <!--        <p class="fs-5 form-input mt-2 mb-3">{{ resume.education[0].faculty }}</p>-->
+
+        <!--        <p class="fs-5 ">Специализация:</p>-->
+        <!--        <p class="fs-5 form-input mt-2 mb-3">{{ resume.education[0].specialization }}</p>-->
+
+        <!--        <p class="fs-5 ">Год окончания:</p>-->
+        <!--        <p class="fs-5 form-input mt-2 mb-3">{{ resume.education[0].Year_ending }}</p>-->
+
+      </template>
     </div>
-    <p class="fs-5 text-center fw-bold text-danger">Желаемая ЗП: {{ resume.money }} (Р)</p>
+
+
+    <template
+        v-else-if="resume.education.length > 1"
+
+    >
+      <div id="carouselExampleDark" class="carousel carousel-dark slide"  data-interval="false">
+        <div class="carousel-indicators">
+          <button
+              v-for="(education, index) in resume.education"
+              :class="{ 'active': index === 0}"
+              :data-bs-slide-to="`${index}`"
+              type="button" data-bs-target="#carouselExampleDark"   aria-current="true" ></button>
+        </div>
+        <div class="carousel-inner">
+          <div
+              v-for="(education, index) in resume.education"
+              :class="{ 'active': index === 0 }"
+              class="carousel-item"  data-bs-interval="2000">
+            <div class="card-education">
+
+              <p class="fs-5 ">Образование:</p>
+              <p class="fs-5 form-input mt-2 mb-3">{{ education.type }}</p>
+              <template
+                  v-if="education.type !== 'Среднее'"
+              >
+                <p class="fs-5 ">Место получения:</p>
+                <p class="fs-5 form-input mt-2 mb-3">
+                  Институт: {{ education.institution }}
+                  <br>
+                  Факультет: {{ education.faculty }}
+                  <br>
+                  Специализация: {{ education.specialization }}
+                  <br>
+                  Год окончания: {{ education.Year_ending }}
+                </p>
+
+              </template>
+            </div>
+
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+    </template>
+
+
+
+
+
+  <p class="fs-5 text-center fw-bold text-danger">Желаемая ЗП: {{ resume.money }} (Р)</p>
 
   </div>
+
 </template>
 
 <script>
@@ -79,9 +162,17 @@ export default {
   padding: 0 0 0 10px;
   outline: 0 none;
 }
+
 .form-out-img {
   width: 100%;
   max-height: 400px;
   object-fit: cover;
+}
+
+.card-education {
+  border: 1px solid rgba(0, 0, 0, .4);
+  border-radius: 10px;
+  height: 350px;
+  padding: 10px 20px 10px 20px;
 }
 </style>

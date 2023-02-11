@@ -1,9 +1,9 @@
 <template>
   <d-resume />
 <!--  Использование названия роута. Получаем аналог тега a-->
-  <router-link :to="{name:'home'}" >
-    Просто текст
-  </router-link>
+<!--  <router-link :to="{name:'home'}" >-->
+<!--    Просто текст-->
+<!--  </router-link>-->
 </template>
 
 <script>
