@@ -144,7 +144,8 @@
 
 
       <!--Поле для ввода почты-->
-      <input v-model="resume.mail" @input="validateMail();broadcastResume();" class="form-input  fs-5" type="text" maxlength="35">
+      <input v-model="resume.mail" @input="validateMail();broadcastResume();" class="form-input  fs-5" type="text"
+             maxlength="35">
 
     </div>
 
@@ -185,7 +186,7 @@
               v-for="(education, index) in resume.education"
               :class="{ 'active': index === 0}"
               :data-bs-slide-to="`${index}`"
-              type="button" data-bs-target="#carouselExampleIndicators"   aria-current="true" ></button>
+              type="button" data-bs-target="#carouselExampleIndicators" aria-current="true"></button>
         </div>
         <div class="carousel-inner">
 
@@ -216,18 +217,29 @@
                 </svg>
               </div>
 
-              <div class="d-flex form-row-card-education justify-content-center align-items-center">
-                <p class="fs-5 form-label">Образование</p>
-                <!--Поле для выбора степени образования-->
-                <select
-                    @change="broadcastResume"
-                    v-model="education.type" class="form-input  fs-5">
-                  <option>Среднее</option>
-                  <option>Среднее специальное</option>
-                  <option>Неоконченное высшее</option>
-                  <option>Высшее</option>
-                </select>
-              </div>
+
+              <app-select
+                  itemKey="type"
+                  label="Образование"
+                  :options="educationOptions"
+                  :value="resume.education[index].type"
+                  @change-select="changeOptionValue(index,$event)"
+              >
+
+              </app-select>
+
+<!--              <div class="d-flex form-row-card-education justify-content-center align-items-center">-->
+<!--                <p class="fs-5 form-label">Образование</p>-->
+<!--                &lt;!&ndash;Поле для выбора степени образования&ndash;&gt;-->
+<!--                <select-->
+<!--                    @change="broadcastResume"-->
+<!--                    v-model="education.type" class="form-input  fs-5">-->
+<!--                  <option>Среднее</option>-->
+<!--                  <option>Среднее специальное</option>-->
+<!--                  <option>Неоконченное высшее</option>-->
+<!--                  <option>Высшее</option>-->
+<!--                </select>-->
+<!--              </div>-->
 
               <template v-if="education.type !== 'Среднее'">
 
@@ -357,18 +369,32 @@
 
         </div>
 
-        <div class="d-flex form-row-card-education justify-content-center align-items-center">
-          <p class="fs-5 form-label">Образование</p>
-          <!--Поле для выбора степени образования-->
-          <select
-              @change="broadcastResume"
-              v-model="resume.education[0].type" class="form-input  fs-5">
-            <option>Среднее</option>
-            <option>Среднее специальное</option>
-            <option>Неоконченное высшее</option>
-            <option>Высшее</option>
-          </select>
-        </div>
+        <app-select
+            itemKey="type"
+            label="Образование"
+            :options="educationOptions"
+            :value="resume.education[0].type"
+            @change-select="changeOptionValue(0,$event)"
+        >
+
+        </app-select>
+
+
+
+<!--        <div class="d-flex form-row-card-education justify-content-center align-items-center">-->
+<!--          <p class="fs-5 form-label">Образование</p>-->
+<!--          &lt;!&ndash;Поле для выбора степени образования&ndash;&gt;-->
+<!--          <select-->
+<!--              @change="broadcastResume"-->
+<!--              v-model="resume.education[0].type" class="form-input  fs-5">-->
+<!--            <option>Среднее</option>-->
+<!--            <option>Среднее специальное</option>-->
+<!--            <option>Неоконченное высшее</option>-->
+<!--            <option>Высшее</option>-->
+<!--          </select>-->
+<!--        </div>-->
+
+
 
         <template v-if="resume.education[0].type !== 'Среднее'">
 
@@ -488,6 +514,13 @@
 
     </div>
 
+    <app-input
+
+        @change-input="changeValue"
+        type="text" item-key="profession" label="Тестовый лабел">
+
+    </app-input>
+
     <div class="d-flex form-row justify-content-center align-items-center">
       <button
           @click.stop="broadcastResume"
@@ -502,10 +535,13 @@
 
 import {CityApi} from '@/api/cityApi/CityApi';
 import {UniversityApi} from '@/api/universityApi/UniversityApi';
-import {formToJSON} from "axios";
+import AppInput from "@/ui/appInput/AppInput.vue";
+import AppSelect from "@/ui/appSelect/AppSelect.vue";
+
 
 export default {
   name: "ResumeForm",
+  components: {AppSelect, AppInput},
   data() {
     return {
       resume: {
@@ -530,10 +566,35 @@ export default {
         status: 'Новый',
         apiCities: [],
         apiUniversity: [],
-      }
+      },
+      educationOptions: [
+        {
+          value: 'Среднее',
+          caption: 'Среднее',
+        },
+        {
+          value: 'Среднее специальное',
+          caption: 'Среднее специальное',
+        },
+        {
+          value: 'Неоконченное высшее',
+          caption: 'Неоконченное высшее',
+        },
+        {
+          value: 'Высшее',
+          caption: 'Высшее',
+        },
+      ],
     }
   },
   methods: {
+    changeValue(item) {
+      this.resume[item.key] = item.value;
+      this.broadcastResume();
+    },
+    changeOptionValue(index, item){
+      this.resume.education[index][item.key] = item.value;
+    },
     broadcastResume() {
       this.$emit('broadcast', this.resume);
     },
