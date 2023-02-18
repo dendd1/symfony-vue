@@ -1,5 +1,5 @@
 <template>
-  <d-resume />
+  <resume />
 <!--  Использование названия роута. Получаем аналог тега a-->
 <!--  <router-link :to="{name:'home'}" >-->
 <!--    Просто текст-->
@@ -7,11 +7,11 @@
 </template>
 
 <script>
-import DResume from "../components/DResume/DResume.vue";
+import Resume from "../components/resume/Resume.vue";
 
 export default {
   name: "ResumeView",
-  components: {DResume}
+  components: {Resume}
 }
 </script>
 
