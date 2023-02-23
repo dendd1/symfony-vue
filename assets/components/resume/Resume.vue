@@ -35,8 +35,6 @@ export default {
         faculty: '',
         specialization: '',
         Year_ending: '',
-        erPhone: '',
-        erMail: '',
         profession: '',
         city: '',
         photo: '',

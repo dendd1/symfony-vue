@@ -1,179 +1,72 @@
 <template>
-  <form
-      @keydown.esc="
-      resume.apiCities = [];
-      resume.apiUniversity = [];
-      "
-      @click="
-      resume.apiCities = [];
-      resume.apiUniversity = [];
-      "
-  >
+  <form>
 
-    <div class="d-flex form-row justify-content-center align-items-center">
+    <app-select
+        itemKey="status"
+        label="Статус"
+        :options="statusOptions"
+        :value="resume.status"
+        @change-select="changeOptionValue(0,$event)">
+    </app-select>
 
-      <p class="fs-5 form-label">Статус</p>
+    <app-input
+        @change-input="changeValue(0,$event)"
+        type="text" item-key="profession" label="Профессия">
+    </app-input>
 
-      <!--Поле для выбора степени образования-->
+    <app-input
+        @change-input="changeValue(0,$event)"
+        type="text" item-key="surname" label="Фалимия">
+    </app-input>
 
-      <select
-          @change="broadcastResume"
-          v-model="resume.status" class="form-input  fs-5">
-        <option>Новый</option>
-        <option>Назначено собеседование</option>
-        <option>Принят</option>
-        <option>Отказ</option>
-      </select>
+    <app-input
+        @change-input="changeValue(0,$event)"
+        type="text" item-key="name" label="Имя">
+    </app-input>
 
-
-    </div>
-    <div class="d-flex form-row justify-content-center align-items-center">
-      <p class="fs-5 form-label">Профессия</p>
-      <!--Поле для ввода профессии-->
-      <input
-          @input="broadcastResume"
-          v-model="resume.profession" class="form-input  fs-5" type="text" maxlength="35">
-
-    </div>
-
-    <div class="d-flex form-row justify-content-center align-items-center">
-      <p class="fs-5 form-label">Фалимия</p>
-      <!--Поле для ввода фамилии-->
-      <input
-          @input="broadcastResume"
-          v-model="resume.surname" class="form-input  fs-5" type="text" maxlength="35">
-    </div>
+    <app-input
+        @change-input="changeValue(0,$event)"
+        type="text" item-key="patronymic" label="Отчество">
+    </app-input>
 
 
-    <div class="d-flex form-row justify-content-center align-items-center">
-
-      <!--Поле для ввода имени-->
-      <p class="fs-5 form-label">Имя</p>
-
-
-      <input
-          @input="broadcastResume"
-          v-model="resume.name" class="form-input  fs-5" type="text" maxlength="35">
-
-    </div>
-
-    <div class="d-flex form-row justify-content-center align-items-center">
-
-      <p class="fs-5 form-label">Отчество</p>
+    <app-input
+        @change-input="changeValue(0,$event)"
+        type="text" item-key="city" label="Город"
+    >
 
 
-      <!--Поле для ввода Отчества-->
-      <input
-          @input="broadcastResume"
-          v-model="resume.patronymic" class="form-input  fs-5" type="text" maxlength="35">
+    </app-input>
 
-    </div>
-
-    <div class="d-flex form-row justify-content-center align-items-center"
-         style="position: relative;">
-
-      <p class="fs-5 form-label">Город</p>
+    <app-input
+        @change-input="changeValue(0,$event)"
+        type="text" item-key="photo" label="Фото">
+    </app-input>
 
 
-      <!--Поле для ввода города-->
-      <input
-          v-model="resume.city"
-          @input="getCity();broadcastResume();"
-          list="cities"
-          class="form-input  fs-5" type="text" maxlength="20">
 
-      <template v-if="resume.apiCities.length && resume.city"
-
-      >
-
-
-        <div
-            style="position: absolute; z-index: 1200; display: block;
-          left: 50px;
-          top: 0;"
-            class="input-border-message   mt-5 p-3">
-
-          <div
-              v-for="city in resume.apiCities"
-              :key="city.id"
-              @click.stop="
-            resume.city = city.title;
-            resume.apiCities = [];
-            broadcastResume();
-            "
-              style="cursor: pointer"
-              class="w-100 mb-1">
-            <p class="fs-5">
-              {{ city.title }}
-            </p>
-
-          </div>
-
-        </div>
-      </template>
-
-    </div>
-    <div class="d-flex form-row justify-content-center align-items-center">
-
-      <p class="fs-5 form-label">Фото</p>
+    <app-input
+        @change-input="changeValue(0,$event)"
+        type="text" item-key="phone" label="Телефон(+7)">
+    </app-input>
+    <app-input
+        @change-input="changeValue(0,$event)"
+        type="text" item-key="mail" label="Почта">
+    </app-input>
 
 
-      <!--Поле для загрузки ссылки на фото-->
-      <input
-          @input="broadcastResume"
-          v-model="resume.photo" class="form-input  fs-5" type="text">
-
-    </div>
-
-    <p class="fs-5 text-danger">{{ resume.erPhone }}</p>
-    <div class="d-flex form-row justify-content-center align-items-center">
-
-      <p class="fs-5 form-label">Телефон(+7)</p>
 
 
-      <!--Поле для ввода телефона-->
-      <input v-model="resume.phone" @input="validatePhone();broadcastResume();" class="form-input  fs-5" type="text">
+    <app-input
+        @change-input="changeValue(0,$event)"
+        type="date" item-key="bDate" label="Дата рождения">
+    </app-input>
 
+    <app-textarea
+        @change-input="changeValue(0,$event)"
+        item-key="about" label="О себе">
 
-    </div>
-
-    <p class="fs-5 text-danger">{{ resume.erMail }}</p>
-    <div class="d-flex form-row justify-content-center align-items-center">
-
-      <p class="fs-5 form-label">Почта</p>
-
-
-      <!--Поле для ввода почты-->
-      <input v-model="resume.mail" @input="validateMail();broadcastResume();" class="form-input  fs-5" type="text"
-             maxlength="35">
-
-    </div>
-
-
-    <div class="d-flex form-row justify-content-center align-items-center">
-
-      <p class="fs-5 form-label">Дата рождения</p>
-
-
-      <!--Поле для указания даты рождения-->
-      <input
-          @change="broadcastResume"
-          v-model="resume.bDate" class="form-input  fs-5" type="date">
-
-    </div>
-
-    <div class="d-flex form-row justify-content-center align-items-center">
-
-      <p class="fs-5 form-label">О себе</p>
-
-
-      <!--Поле для ввода информации о личных качествах-->
-      <textarea
-          @input="broadcastResume"
-          v-model="resume.about" class="form-input  fs-5" maxlength="350"
-          rows="7"></textarea>
-
-    </div>
+    </app-textarea>
 
     <template v-if="resume.education.length > 1">
       <div id="carouselExampleIndicators" class="carousel carousel-dark slide" data-interval="false"
@@ -228,109 +121,28 @@
 
               </app-select>
 
-<!--              <div class="d-flex form-row-card-education justify-content-center align-items-center">-->
-<!--                <p class="fs-5 form-label">Образование</p>-->
-<!--                &lt;!&ndash;Поле для выбора степени образования&ndash;&gt;-->
-<!--                <select-->
-<!--                    @change="broadcastResume"-->
-<!--                    v-model="education.type" class="form-input  fs-5">-->
-<!--                  <option>Среднее</option>-->
-<!--                  <option>Среднее специальное</option>-->
-<!--                  <option>Неоконченное высшее</option>-->
-<!--                  <option>Высшее</option>-->
-<!--                </select>-->
-<!--              </div>-->
-
               <template v-if="education.type !== 'Среднее'">
 
+                <app-input
+                    @change-input="changeValue(index,$event)"
+                    type="text" item-key="institution" label="Учеб. заведение">
+                </app-input>
 
-                <div class="d-flex form-row-card-education justify-content-center align-items-center"
-                     style="position: relative;">
+                <app-input
+                    @change-input="changeValue(index,$event)"
+                    type="text" item-key="faculty" label="Факультет">
+                </app-input>
 
-                  <p class="fs-5 form-label">Учеб. заведение</p>
+                <app-input
+                    @change-input="changeValue(index,$event)"
+                    type="text" item-key="specialization" label="Специализация">
+                </app-input>
 
+                <app-input
+                    @change-input="changeValue(index,$event)"
+                    type="number" min="1900" max="2023" step="1" item-key="Year_ending" label="Год окончания">
+                </app-input>
 
-                  <!--Поле для ввода названия учебного заведения-->
-                  <input
-                      v-model="education.institution"
-                      @input="getUniversity(education.institution);broadcastResume();"
-                      list="universities"
-
-                      class="form-input  fs-5" type="text"
-                      maxlength="35">
-                  <template v-if="resume.apiUniversity.length && education.institution"
-
-                  >
-
-
-                    <div
-                        style="position: absolute; z-index: 1200; display: block;
-            left: 50px;
-            top: 0;"
-                        class="input-border-message   mt-5 p-3">
-
-                      <div
-                          v-for="university in resume.apiUniversity"
-                          :key="university.id"
-                          @click="
-                            education.institution = university.title;
-                            resume.apiUniversity = []
-                          "
-                          style="cursor: pointer"
-                          class="w-100 mb-1">
-                        <p class="fs-5">
-                          {{ university.title }}
-                        </p>
-
-                      </div>
-
-                    </div>
-                  </template>
-
-
-                </div>
-
-                <div class="d-flex form-row-card-education justify-content-center align-items-center">
-
-                  <p class="fs-5 form-label">Факультет</p>
-
-
-                  <!--Поле для ввода названия факультета-->
-                  <input
-                      @input="broadcastResume"
-                      v-model="education.faculty" class="form-input  fs-5" type="text" maxlength="35">
-
-
-                </div>
-
-                <div class="d-flex form-row-card-education justify-content-center align-items-center">
-
-                  <p class="fs-5 form-label">Специализация</p>
-
-
-                  <!--Поле для ввода названия специализации-->
-                  <input
-                      @input="broadcastResume"
-                      v-model="education.specialization" class="form-input  fs-5" type="text"
-                      maxlength="35">
-
-
-                </div>
-
-                <div class="d-flex form-row-card-education justify-content-center align-items-center">
-
-                  <p class="fs-5 form-label">Год окончания</p>
-
-
-                  <!--Поле для ввода года окончания-->
-                  <input
-                      @input="broadcastResume"
-                      v-model="education.Year_ending" type="number" class="form-input  fs-5"
-                      maxlength="4" min="1900" max="2023"
-                      step="1"/>
-
-
-                </div>
               </template>
             </div>
 
@@ -380,177 +192,70 @@
         </app-select>
 
 
-
-<!--        <div class="d-flex form-row-card-education justify-content-center align-items-center">-->
-<!--          <p class="fs-5 form-label">Образование</p>-->
-<!--          &lt;!&ndash;Поле для выбора степени образования&ndash;&gt;-->
-<!--          <select-->
-<!--              @change="broadcastResume"-->
-<!--              v-model="resume.education[0].type" class="form-input  fs-5">-->
-<!--            <option>Среднее</option>-->
-<!--            <option>Среднее специальное</option>-->
-<!--            <option>Неоконченное высшее</option>-->
-<!--            <option>Высшее</option>-->
-<!--          </select>-->
-<!--        </div>-->
-
-
-
         <template v-if="resume.education[0].type !== 'Среднее'">
 
+          <app-input
+              @change-input="changeValue(0,$event)"
+              type="text" item-key="institution" label="Учеб. заведение">
+          </app-input>
 
-          <div class="d-flex form-row-card-education justify-content-center align-items-center"
-               style="position: relative;">
+          <app-input
+              @change-input="changeValue(0,$event)"
+              type="text" item-key="faculty" label="Факультет">
+          </app-input>
 
-            <p class="fs-5 form-label">Учеб. заведение</p>
+          <app-input
+              @change-input="changeValue(0,$event)"
+              type="text" item-key="specialization" label="Специализация">
+          </app-input>
 
+          <app-input
+              @change-input="changeValue(0,$event)"
+              type="number" min="1900" max="2023" step="1" item-key="Year_ending" label="Год окончания">
+          </app-input>
 
-            <!--Поле для ввода названия учебного заведения-->
-            <input
-                v-model="resume.education[0].institution"
-                @input="getUniversity(resume.education[0].institution);broadcastResume();"
-                list="universities"
-
-                class="form-input  fs-5" type="text"
-                maxlength="35">
-            <template v-if="resume.apiUniversity.length && resume.education[0].institution"
-
-            >
-
-
-              <div
-                  style="position: absolute; z-index: 1200; display: block;
-            left: 50px;
-            top: 0;"
-                  class="input-border-message   mt-5 p-3">
-
-                <div
-                    v-for="university in resume.apiUniversity"
-                    :key="university.id"
-                    @click="
-                            resume.education[0].institution = university.title;
-                            resume.apiUniversity = []
-                          "
-                    style="cursor: pointer"
-                    class="w-100 mb-1">
-                  <p class="fs-5">
-                    {{ university.title }}
-                  </p>
-
-                </div>
-
-              </div>
-            </template>
-
-
-          </div>
-
-          <div class="d-flex form-row-card-education justify-content-center align-items-center">
-
-            <p class="fs-5 form-label">Факультет</p>
-
-
-            <!--Поле для ввода названия факультета-->
-            <input
-                @input="broadcastResume"
-                v-model="resume.education[0].faculty" class="form-input  fs-5" type="text" maxlength="35">
-
-
-          </div>
-
-          <div class="d-flex form-row-card-education justify-content-center align-items-center">
-
-            <p class="fs-5 form-label">Специализация</p>
-
-
-            <!--Поле для ввода названия специализации-->
-            <input
-                @input="broadcastResume"
-                v-model="resume.education[0].specialization" class="form-input  fs-5" type="text"
-                maxlength="35">
-
-
-          </div>
-
-          <div class="d-flex form-row-card-education justify-content-center align-items-center">
-
-            <p class="fs-5 form-label">Год окончания</p>
-
-
-            <!--Поле для ввода года окончания-->
-            <input
-                @input="broadcastResume"
-                v-model="resume.education[0].Year_ending" type="number" class="form-input  fs-5"
-                maxlength="4" min="1900" max="2023"
-                step="1"/>
-
-
-          </div>
         </template>
       </div>
     </template>
 
-    <div class="d-flex form-row justify-content-center align-items-center">
 
-      <p class="fs-5 form-label">Ключевые навыки</p>
+    <app-textarea
+        @change-input="changeValue(0,$event)"
+        item-key="skills" label="Ключевые навыки">
 
-
-      <!--Поле для ввода информации о ключевых навыков-->
-      <textarea
-          @input="broadcastResume"
-          v-model="resume.skills" class="form-input  fs-5" maxlength="150"
-          rows="7"></textarea>
-
-    </div>
-
-    <div class="d-flex form-row justify-content-center align-items-center">
-
-      <p class="fs-5 form-label">Желаемая ЗП (Рубли)</p>
-
-      <!--Поле для ввода информации о желаемой зп-->
-      <input
-          @input="broadcastResume"
-          v-model="resume.money" class="form-input  fs-5" type="text" maxlength="20">
-
-    </div>
+    </app-textarea>
 
     <app-input
-
-        @change-input="changeValue"
-        type="text" item-key="profession" label="Тестовый лабел">
-
+        @change-input="changeValue(0,$event)"
+        type="text" item-key="money" label="Желаемая ЗП (Рубли)">
     </app-input>
 
-    <div class="d-flex form-row justify-content-center align-items-center">
-      <button
-          @click.stop="broadcastResume"
-          class="fs-5 w-100" style="border: none"
-      >Загрузить резюме
-      </button>
-    </div>
+
+    <app-button @click.stop="broadcastResume">
+    </app-button>
+
   </form>
 </template>
 
 <script>
 
-import {CityApi} from '@/api/cityApi/CityApi';
-import {UniversityApi} from '@/api/universityApi/UniversityApi';
 import AppInput from "@/ui/appInput/AppInput.vue";
 import AppSelect from "@/ui/appSelect/AppSelect.vue";
+import AppTextarea from "@/ui/appTextarea/AppTextarea.vue";
+import AppButton from "@/ui/appButton/AppButton.vue";
 
 
 export default {
   name: "ResumeForm",
-  components: {AppSelect, AppInput},
+  components: {AppButton, AppTextarea, AppSelect, AppInput},
   data() {
     return {
       resume: {
 
-        erPhone: '',
-        erMail: '',
+
         profession: '',
         city: '',
-        photo: 'https://kartinkin.net/uploads/posts/2022-03/1646950917_64-kartinkin-net-p-derevnya-durakov-kartinki-68.png',
+        photo: 'https://sun9-28.userapi.com/impf/c639623/v639623672/48ce2/YEBfG_EZA28.jpg?size=1280x1280&quality=96&sign=8aad09991e748c403355ed0b1c49ee0c&c_uniq_tag=U3Zwf9VuxNMHnAamGnyh2p4Ab12uABSDceaVmPE6wYM&type=album',
         surname: '',
         name: '',
         patronymic: '',
@@ -564,8 +269,6 @@ export default {
         skills: '',
         about: '',
         status: 'Новый',
-        apiCities: [],
-        apiUniversity: [],
       },
       educationOptions: [
         {
@@ -585,44 +288,54 @@ export default {
           caption: 'Высшее',
         },
       ],
+      statusOptions: [
+        {
+          value: 'Новый',
+          caption: 'Новый',
+        },
+        {
+          value: 'Назначено собеседование',
+          caption: 'Назначено собеседование',
+        },
+        {
+          value: 'Принят',
+          caption: 'Принят',
+        },
+        {
+          value: 'Отказ',
+          caption: 'Отказ',
+        },
+      ]
     }
   },
   methods: {
-    changeValue(item) {
-      this.resume[item.key] = item.value;
+    changeValue(index, item) {
+      if(item.key === 'institution' || item.key === 'faculty' || item.key === 'specialization' || item.key === 'Year_ending'){
+        this.resume.education[index][item.key] = item.value;
+      }
+      else{
+        this.resume[item.key] = item.value;
+      }
+      if (item.key === 'city') {
+        this.getCity();
+      }
       this.broadcastResume();
     },
-    changeOptionValue(index, item){
-      this.resume.education[index][item.key] = item.value;
+    changeOptionValue(index, item) {
+      if (item.key === 'type') {
+        this.resume.education[index][item.key] = item.value;
+      }
+      if (item.key === 'status') {
+        this.resume.status = item.value;
+
+      }
+      this.broadcastResume();
     },
     broadcastResume() {
       this.$emit('broadcast', this.resume);
     },
 
-    // Ф. валидации телефона, в случае неправильного ввода, выведет подсказку для правильного написания
-    validatePhone() {
-      this.resume.erPhone = '';
-      if (this.resume.phone.length < 6 || this.resume.phone.length > 10) {
-        this.resume.erPhone = 'Длина номера должна быть от 6 до 10 символов.';
-      }
-      if (/\D/.test(this.resume.phone)) {
-        this.resume.erPhone += ' Номер должен сожержать только цифры.';
-      }
-    },
-    validateMail() {
-      this.resume.erMail = '';
-      if (!(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(this.resume.mail))) {
-        this.resume.erMail += 'Введите почту корректно. example@mail.ru';
-      }
-    },
 
-    async getCity() {
-      this.resume.apiCities = await CityApi.getCities(this.resume.city);
-    },
-    async getUniversity(University) {
-      this.resume.apiUniversity = await UniversityApi.getUniversities(University);
-      console.log(this.resume.apiUniversity)
-    },
     addEducation() {
       const newEducation = {
         id: new Date(),

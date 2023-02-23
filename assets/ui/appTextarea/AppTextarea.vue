@@ -1,56 +1,60 @@
 <template>
   <div class="d-flex form-row justify-content-center align-items-center">
-    <p class="fs-5 form-label">{{ label }}</p>
-    <select
-        :value="value"
-        @change="changeSelect($event.target.value)"
-        class="form-input  fs-5"
-    >
-      <option v-for="(option, key) in options" :key="key" :value="option.value">
-        {{ option.caption }}
-      </option>
-    </select>
+
+    <p class="fs-5 form-label">{{label}}</p>
+
+
+    <!--Поле для ввода информации о ключевых навыков-->
+    <textarea
+        @input="changeInput"
+        v-model="value" class="form-input  fs-5" maxlength="150"
+        rows="7"></textarea>
+
   </div>
 </template>
 
 <script>
 export default {
-  name: 'AppSelect',
+  name: "AppTextarea",
+  emits: ['changeInput'],
   props: {
     itemKey: {
       type: String,
       required: false,
     },
+    type: {
+      type: String,
+      required: false,
+      default: 'text',
+    },
     label: {
       type: String,
       required: false,
-    },
-
-    options: {
-      type: Array,
-      required: true,
-    },
-
-    value: {
-      type: String,
-      required: false,
-      default: '',
-    },
-  },
-  emits: ['changeSelect'],
-  methods: {
-    changeSelect(value) {
-      this.$emit('changeSelect', {
-        key: this.itemKey,
-        value: value,
-      });
     }
+  },
+  data() {
+    return {
+      value: '',
+      apiCities: [],
+      apiUniversity: [],
+      errorMessage: '',
+    }
+  },
+  methods: {
+    changeInput() {
+      this.broadcastValue();
+    },
+    broadcastValue() {
+      this.$emit('changeInput', {
+        key: this.itemKey,
+        value: this.value,
+      })
+    },
   }
-};
+}
 </script>
 
 <style scoped>
-
 .form-row {
   border: 4px solid rgba(214, 214, 214, .6);
   margin: 10px 70px 10px 0;
@@ -71,7 +75,6 @@ export default {
   padding: 0 0 0 10px;
   outline: 0 none;
 }
-
 
 
 </style>

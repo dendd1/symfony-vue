@@ -16,15 +16,12 @@
 
     <p class="fs-5 form-input my-3">{{ resume.surname }} {{ resume.name }} {{ resume.patronymic }}</p>
 
-    <div v-if=" (resume.mail == ''|| resume.erMail.length > 0) && (resume.erPhone.length > 0 || resume.phone == '')">
+    <div v-if=" (resume.mail == '' && resume.phone == '')">
       <p class="fs-5 form-input my-3">Ваши контакты</p>
     </div>
-    <p class="fs-5 form-input my-3" v-else-if="resume.erPhone.length > 0 && resume.erMail.length == 0">{{
-        resume.mail
-      }}</p>
-    <p class="fs-5 form-input my-3" v-else-if="resume.erPhone.length == 0 && resume.erMail.length > 0">тел.:
-      +7{{ resume.phone }}</p>
-    <p class="fs-5 form-input my-3" v-else>{{ resume.mail }} (тел.: +7{{ resume.phone }})</p>
+
+
+    <p class="fs-5 form-input my-3" >{{ resume.mail }} (тел.: +7{{ resume.phone }})</p>
 
     <p class="fs-5 form-input my-3">Родился {{ resume.bDate }}. Проживает в г. {{ resume.city }}</p>
     <p class="fs-5 ">О себе:</p>
