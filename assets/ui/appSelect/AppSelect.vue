@@ -53,7 +53,7 @@ export default {
 
 .form-row {
   border: 4px solid rgba(214, 214, 214, .6);
-  margin: 10px 70px 10px 0;
+  margin: 10px 0 10px 0;
   border-radius: 6px;
   background: rgba(214, 214, 214, .6);
 }
