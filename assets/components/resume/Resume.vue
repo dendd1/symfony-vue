@@ -1,4 +1,10 @@
 <template>
+  <router-link :to="{ name: 'main' }" class="nav-link text-secondary fw-bolder pt-5 px-5">
+    <app-button
+        label="На главную"
+    >
+    </app-button>
+  </router-link>
   <div class="m-5">
     <div class="row">
       <div class="col-6">
@@ -23,10 +29,11 @@
 
 import ResumeForm from "./resumeForm/ResumeForm.vue";
 import ResumeTemplate from "./resumeTemplate/ResumeTemplate.vue";
+import AppButton from "../../ui/appButton/AppButton.vue";
 
 export default {
   name: "Resume",
-  components: {ResumeForm, ResumeTemplate},
+  components: {AppButton, ResumeForm, ResumeTemplate},
   data() {
     return {
       // Готовый присет заполнения формы

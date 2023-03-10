@@ -2,14 +2,21 @@
   <div class="d-flex form-row justify-content-center align-items-center">
     <button
         class="fs-5 w-100" style="border: none"
-    >Загрузить резюме
+    >
+      {{label}}
     </button>
   </div>
 </template>
 
 <script>
 export default {
-  name: "AppButton"
+  name: "AppButton",
+  props: {
+    label: {
+      type: String,
+      required: false,
+    },
+  }
 }
 </script>
 

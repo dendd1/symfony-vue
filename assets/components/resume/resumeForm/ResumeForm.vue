@@ -232,7 +232,9 @@
     </app-input>
 
 
-    <app-button @click.stop="broadcastResume">
+    <app-button @click.stop="broadcastResume"
+    label="Загрузить резюме">
+
     </app-button>
 
   </form>

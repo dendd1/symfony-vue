@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import ResumeView from "../views/ResumeView.vue";
+import MainPage from "../components/main/MainPage.vue";
 // import EmployeeView from '../views/EmployeeView';
 // import TurnoverView from '../views/TurnoverView';
 // import LayoffsView from '../views/LayoffsView';
@@ -7,14 +8,14 @@ import ResumeView from "../views/ResumeView.vue";
 const routes = [
     {
         path: '/',
-        name: 'home',
+        name: 'main',
+        component: MainPage,
+    },
+    {
+        path: '/resume',
+        name: 'resume',
         component: ResumeView,
     },
-    // {
-    //     path: '/turnover/rates',
-    //     name: 'turnover_rates',
-    //     component: TurnoverView,
-    // },
     // {
     //     path: '/analytics/layoffs',
     //     name: 'analytics_layoffs',
