@@ -12,7 +12,8 @@
         <div class="form-resume-mini">
           <p class="fs-2 text-center">Новое: {{ newStatus.length }}</p>
           <draggable
-              :class="Array.isArray(newStatus) ? 'p-2' : 'p-0'"
+              :class="Array.isArray(newStatus) ? 'p-2' : 'drag-drop-box'"
+
               tag="ul"
               v-model="newStatus"
               v-bind="dragOptions"
@@ -42,18 +43,7 @@
             </transition-group>
           </draggable>
           <template v-if="!Array.isArray(newStatus)">
-            <div style="margin-top: 24px">
-
-
-            <resume-mini
-                profession="Для добавления"
-                photo="https://sun9-62.userapi.com/impg/sU2awYOuWv9SfsIDiZFuDlPH2IJ7q4a2Mtv5oA/oVn--mBRGXE.jpg?size=1063x862&quality=96&sign=80ff61f69342813fab234d945c0febbc&type=album"
-                surname="перенести"
-                name=""
-                patronymic=""
-                b-date="сюда"
-            ></resume-mini>
-            </div>
+            <p class="text-center fs-5">Drag And Drop Zone</p>
           </template>
         </div>
 
@@ -62,7 +52,7 @@
         <div class="form-resume-mini">
           <p class="fs-2 text-center">Собеседование: {{ interviewStatus.length }}</p>
           <draggable
-              :class="Array.isArray(newStatus) ? 'p-2' : 'p-0'"
+              :class="Array.isArray(interviewStatus) ? 'p-2' : 'drag-drop-box'"
               tag="ul"
               @start="isDragging = true"
               @end="isDragging = false"
@@ -88,18 +78,7 @@
             </transition-group>
           </draggable>
           <template v-if="!Array.isArray(interviewStatus)">
-            <div style="margin-top: 24px">
-
-
-              <resume-mini
-                  profession="Для добавления"
-                  photo="https://sun9-62.userapi.com/impg/sU2awYOuWv9SfsIDiZFuDlPH2IJ7q4a2Mtv5oA/oVn--mBRGXE.jpg?size=1063x862&quality=96&sign=80ff61f69342813fab234d945c0febbc&type=album"
-                  surname="перенести"
-                  name=""
-                  patronymic=""
-                  b-date="сюда"
-              ></resume-mini>
-            </div>
+            <p class="text-center fs-5">Drag And Drop Zone</p>
           </template>
         </div>
 
@@ -108,7 +87,7 @@
         <div class="form-resume-mini">
           <p class="fs-2 text-center">Принято: {{ acceptedStatus.length }}</p>
           <draggable
-              :class="Array.isArray(acceptedStatus) ? 'p-2' : 'p-0'"
+              :class="Array.isArray(acceptedStatus) ? 'p-2' : 'drag-drop-box'"
               tag="ul"
               @start="isDragging = true"
               @end="isDragging = false"
@@ -133,18 +112,7 @@
             </transition-group>
           </draggable>
           <template v-if="!Array.isArray(acceptedStatus)">
-            <div style="margin-top: 24px">
-
-
-              <resume-mini
-                  profession="Для добавления"
-                  photo="https://sun9-62.userapi.com/impg/sU2awYOuWv9SfsIDiZFuDlPH2IJ7q4a2Mtv5oA/oVn--mBRGXE.jpg?size=1063x862&quality=96&sign=80ff61f69342813fab234d945c0febbc&type=album"
-                  surname="перенести"
-                  name=""
-                  patronymic=""
-                  b-date="сюда"
-              ></resume-mini>
-            </div>
+            <p class="text-center fs-5">Drag And Drop Zone</p>
           </template>
         </div>
 
@@ -154,7 +122,7 @@
           <p class="fs-2 text-center">Отказано: {{ refusedStatus.length }}</p>
           <draggable
               tag="ul"
-              :class="Array.isArray(refusedStatus) ? 'p-2' : 'p-0'"
+              :class="Array.isArray(refusedStatus) ? 'p-2' : 'drag-drop-box'"
               @start="isDragging = true"
               @end="isDragging = false"
               v-model="refusedStatus" v-bind="dragOptions" :move="onMove">
@@ -178,18 +146,7 @@
             </transition-group>
           </draggable>
           <template v-if="!Array.isArray(refusedStatus)">
-            <div style="margin-top: 24px">
-
-
-              <resume-mini
-                  profession="Для добавления"
-                  photo="https://sun9-62.userapi.com/impg/sU2awYOuWv9SfsIDiZFuDlPH2IJ7q4a2Mtv5oA/oVn--mBRGXE.jpg?size=1063x862&quality=96&sign=80ff61f69342813fab234d945c0febbc&type=album"
-                  surname="перенести"
-                  name=""
-                  patronymic=""
-                  b-date="сюда"
-              ></resume-mini>
-            </div>
+            <p class="text-center fs-5">Drag And Drop Zone</p>
           </template>
         </div>
 
@@ -319,7 +276,9 @@ export default {
   cursor: pointer;
 }
 
-
+.drag-drop-box{
+  height: 400px;
+}
 .form-resume-mini {
   border: 4px solid rgba(214, 214, 214, .6);
   padding: 10px;
