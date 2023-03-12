@@ -27,9 +27,19 @@ export default {
       required: false,
       default: 'text',
     },
+    valueFrom: {
+      type: String,
+      required: false,
+      default: '',
+    },
     label: {
       type: String,
       required: false,
+    }
+  },
+  watch: {
+    valueFrom(){
+      this.value = this.valueFrom;
     }
   },
   data() {

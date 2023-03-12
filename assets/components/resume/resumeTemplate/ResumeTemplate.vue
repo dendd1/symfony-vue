@@ -131,7 +131,6 @@ export default {
   name: "ResumeTemplate",
   props: {
     resume: {
-      type: Array,
       required: true
     }
 

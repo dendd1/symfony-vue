@@ -16,16 +16,13 @@ const routes = [
         name: 'resume',
         component: ResumeView,
     },
-    // {
-    //     path: '/analytics/layoffs',
-    //     name: 'analytics_layoffs',
-    //     component: LayoffsView,
-    // },
-    // {
-    //     path: '/forecasting/staffing',
-    //     name: 'forecasting_staffing',
-    //     component: StaffingView,
-    // },
+    {
+        path: '/edit/:id',
+        name: 'edit',
+        component: ResumeView,
+        props: true,
+    },
+
 ];
 
 const router = createRouter({

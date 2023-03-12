@@ -11,27 +11,32 @@
 
     <app-input
         @change-input="changeValue(0,$event)"
+        :valueFrom="resume.profession"
         type="text" item-key="profession" label="Профессия">
     </app-input>
 
     <app-input
         @change-input="changeValue(0,$event)"
+        :valueFrom="resume.surname"
         type="text" item-key="surname" label="Фалимия">
     </app-input>
 
     <app-input
         @change-input="changeValue(0,$event)"
+        :valueFrom="resume.name"
         type="text" item-key="name" label="Имя">
     </app-input>
 
     <app-input
         @change-input="changeValue(0,$event)"
+        :valueFrom="resume.patronymic"
         type="text" item-key="patronymic" label="Отчество">
     </app-input>
 
 
     <app-input
         @change-input="changeValue(0,$event)"
+        :valueFrom="resume.city"
         type="text" item-key="city" label="Город"
     >
 
@@ -40,6 +45,7 @@
 
     <app-input
         @change-input="changeValue(0,$event)"
+        :valueFrom="resume.photo"
         type="text" item-key="photo" label="Фото">
     </app-input>
 
@@ -47,10 +53,12 @@
 
     <app-input
         @change-input="changeValue(0,$event)"
+        :valueFrom="resume.phone"
         type="text" item-key="phone" label="Телефон(+7)">
     </app-input>
     <app-input
         @change-input="changeValue(0,$event)"
+        :valueFrom="resume.mail"
         type="text" item-key="mail" label="Почта">
     </app-input>
 
@@ -59,10 +67,12 @@
 
     <app-input
         @change-input="changeValue(0,$event)"
+        :valueFrom="resume.bDate"
         type="date" item-key="bDate" label="Дата рождения">
     </app-input>
 
     <app-textarea
+        :valueFrom="resume.about"
         @change-input="changeValue(0,$event)"
         item-key="about" label="О себе">
 
@@ -124,22 +134,26 @@
 
                 <app-input
                     @change-input="changeValue(index,$event)"
+                    :valueFrom="education.institution"
                     type="text" item-key="institution" label="Учеб. заведение">
                 </app-input>
 
                 <app-input
                     @change-input="changeValue(index,$event)"
+                    :valueFrom="education.faculty"
                     type="text" item-key="faculty" label="Факультет">
                 </app-input>
 
                 <app-input
                     @change-input="changeValue(index,$event)"
+                    :valueFrom="education.specialization"
                     type="text" item-key="specialization" label="Специализация">
                 </app-input>
 
                 <app-input
                     @change-input="changeValue(index,$event)"
-                    type="number" min="1900" max="2023" step="1" item-key="Year_ending" label="Год окончания">
+                    :valueFrom="education.Year_ending"
+                    type="number"  item-key="Year_ending" label="Год окончания">
                 </app-input>
 
               </template>
@@ -196,21 +210,25 @@
 
           <app-input
               @change-input="changeValue(0,$event)"
+              :valueFrom="resume.education[0].institution"
               type="text" item-key="institution" label="Учеб. заведение">
           </app-input>
 
           <app-input
               @change-input="changeValue(0,$event)"
+              :valueFrom="resume.education[0].faculty"
               type="text" item-key="faculty" label="Факультет">
           </app-input>
 
           <app-input
               @change-input="changeValue(0,$event)"
+              :valueFrom="resume.education[0].specialization"
               type="text" item-key="specialization" label="Специализация">
           </app-input>
 
           <app-input
               @change-input="changeValue(0,$event)"
+              :valueFrom="resume.education[0].Year_ending"
               type="number" min="1900" max="2023" step="1" item-key="Year_ending" label="Год окончания">
           </app-input>
 
@@ -221,6 +239,7 @@
 
 
     <app-textarea
+        :valueFrom="resume.skills"
         @change-input="changeValue(0,$event)"
         item-key="skills" label="Ключевые навыки">
 
@@ -228,6 +247,7 @@
 
     <app-input
         @change-input="changeValue(0,$event)"
+        :valueFrom="resume.money"
         type="text" item-key="money" label="Желаемая ЗП (Рубли)">
     </app-input>
 
@@ -236,6 +256,22 @@
     label="Загрузить резюме">
 
     </app-button>
+
+
+    <app-button
+        v-if="!resume.isEdit"
+        @click.stop="$emit('apply')"
+                label="Загрузить в бд">
+
+    </app-button>
+
+    <app-button
+        v-if="resume.isEdit"
+        @click.stop="$emit('edit')"
+        label="Обновить в бд">
+
+    </app-button>
+
 
   </form>
 </template>
@@ -251,6 +287,15 @@ import AppButton from "@/ui/appButton/AppButton.vue";
 export default {
   name: "ResumeForm",
   components: {AppButton, AppTextarea, AppSelect, AppInput},
+  props: {
+    resumeFromDB: {
+      required: true,
+      // default: null,
+    },
+  },
+  created() {
+    this.resume = this.resumeFromDB;
+  },
   data() {
     return {
       resume: {
@@ -258,7 +303,7 @@ export default {
 
         profession: '',
         city: '',
-        photo: 'https://sun9-28.userapi.com/impf/c639623/v639623672/48ce2/YEBfG_EZA28.jpg?size=1280x1280&quality=96&sign=8aad09991e748c403355ed0b1c49ee0c&c_uniq_tag=U3Zwf9VuxNMHnAamGnyh2p4Ab12uABSDceaVmPE6wYM&type=album',
+        photo: '',
         surname: '',
         name: '',
         patronymic: '',
@@ -324,6 +369,7 @@ export default {
       }
       this.broadcastResume();
     },
+
     changeOptionValue(index, item) {
       if (item.key === 'type') {
         this.resume.education[index][item.key] = item.value;

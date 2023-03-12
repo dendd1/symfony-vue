@@ -12,12 +12,24 @@
 
     <p class="fs-5 form-input my-3">{{bDate}}</p>
 
+    <router-link :to="{ name: 'edit', params: {id: id} }" class=" fs-5 text-center nav-link text-danger fw-bolder">
+      Редактировать
+    </router-link>
+
+<!--    <app-button @click.stop="clickCard(id)"-->
+<!--                label="Редактировать">-->
+
+<!--    </app-button>-->
+
   </div>
 </template>
 
 <script>
+import AppButton from "../appButton/AppButton.vue";
+
 export default {
   name: "ResumeMini",
+  components: {AppButton},
   props: {
     profession: {
       type: String,
@@ -40,10 +52,21 @@ export default {
       required: false,
     },
     bDate: {
-      type: Date,
+      type: String,
+      required: false,
+    },
+    id: {
+      type: Number,
       required: false,
     }
   },
+  methods:{
+    clickCard(item) {
+      // item.fixed = !item.fixed;
+      console.log(1);
+      this.$router.push({ name: 'edit', params: { id: item.id } });
+    },
+  }
 }
 </script>
 
@@ -67,7 +90,7 @@ export default {
 
 .form-out-img {
   width: 100%;
-  max-height: 400px;
+  max-height: 300px;
   object-fit: cover;
 }
 

@@ -12,7 +12,6 @@
         @input="changeInput()"
         class="form-input  fs-5" type="text" >
 
-
     <template v-if="itemKey==='city' && apiCities.length">
       <div
           style="position: absolute; z-index: 1200; display: block;
@@ -64,7 +63,6 @@
 
       </div>
     </template>
-
   </div>
 
 
@@ -74,6 +72,7 @@
 import {CityApi} from '@/api/cityApi/CityApi';
 import {UniversityApi} from '@/api/universityApi/UniversityApi';
 
+
 export default {
   name: "AppInput",
   emits: ['changeInput'],
@@ -81,6 +80,11 @@ export default {
     itemKey: {
       type: String,
       required: false,
+    },
+    valueFrom: {
+      type: String,
+      required: false,
+      default: '',
     },
     type: {
       type: String,
@@ -92,9 +96,19 @@ export default {
       required: false,
     }
   },
+  watch: {
+    valueFrom(){
+
+        this.value = this.valueFrom;
+
+
+    }
+  },
+
+
   data() {
     return {
-      value: '',
+      value: this.valueFrom,
       apiCities: [],
       apiUniversity: [],
       errorMessage: '',
@@ -122,6 +136,7 @@ export default {
       }
 
     },
+
     validatePhone() {
       this.errorMessage = '';
       let flag = true;
