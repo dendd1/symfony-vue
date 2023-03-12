@@ -15,8 +15,7 @@
 
           <resume-form
               @broadcast="broadcastResume"
-              @apply="apply"
-              @edit="edit"
+
               :resume-from-d-b="resume"
           />
         </div>
@@ -25,7 +24,11 @@
           <h1 class="fs-3 m-3">Ваше резюме</h1>
 
 
-          <resume-template :resume="resume"/>
+          <resume-template
+              :resume="resume"
+              @apply="apply"
+              @edit="edit"
+          />
         </div>
 
       </div>
@@ -55,7 +58,7 @@ export default {
     },
   },
   created() {
-    if(this.id){
+    if (this.id) {
       this.loadResume(this.id)
     }
   },
@@ -106,28 +109,27 @@ export default {
 
     },
     async apply() {
-      this.loading=true;
+      this.loading = true;
       let result = await ResumeApi.postResume(this.resume);
       if (result) alert(`Резюме успешно добавлено!`);
       else alert(`Произошла неизвестная ошибка!`);
-      this.loading=false;
+      this.loading = false;
       this.$router.push({name: 'main'});
     },
     async edit() {
-      this.loading=true;
-      if(this.id !== null) {
+      this.loading = true;
+      if (this.id !== null) {
         let result = await ResumeApi.editResume(this.id, this.resume);
         if (result) alert(`Резюме отредактировано!`);
         else alert(`Произошла неизвестная ошибка!`);
-      }
-      else{
+      } else {
         alert('id is null');
       }
-      this.loading=false;
+      this.loading = false;
       this.$router.push({name: 'main'});
     },
     async loadResume(id) {
-      this.loading=true;
+      this.loading = true;
       let result = await ResumeApi.getResume(id);
       if (result.result) {
         this.resume.profession = result.result.profession;
@@ -146,13 +148,12 @@ export default {
         this.resume.about = result.result.about;
         this.resume.status = result.result.status;
         this.resume.isEdit = true;
-      }
-      else {
+      } else {
         alert(`Произошла неизвестная ошибка`);
         this.$router.push({name: 'main'});
-        }
+      }
 
-      this.loading=false;
+      this.loading = false;
 
     },
   },

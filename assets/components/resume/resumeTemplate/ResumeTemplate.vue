@@ -124,11 +124,26 @@
 
   </div>
 
+  <app-button
+      v-if="!resume.isEdit"
+      @click.stop="$emit('apply')"
+      label="Отправить">
+
+  </app-button>
+  <app-button
+      v-if="resume.isEdit"
+      @click.stop="$emit('edit')"
+      label="Обновить">
+
+  </app-button>
 </template>
 
 <script>
+import AppButton from "../../../ui/appButton/AppButton.vue";
+
 export default {
   name: "ResumeTemplate",
+  components: {AppButton},
   props: {
     resume: {
       required: true

@@ -254,19 +254,9 @@
 
 
 
-    <app-button
-        v-if="!resume.isEdit"
-        @click.stop="$emit('apply')"
-                label="Отправить">
 
-    </app-button>
 
-    <app-button
-        v-if="resume.isEdit"
-        @click.stop="$emit('edit')"
-        label="Обновить">
 
-    </app-button>
 
 
   </form>
