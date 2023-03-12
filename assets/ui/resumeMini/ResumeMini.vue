@@ -1,20 +1,16 @@
 <template>
-  <div class="form-row p-3">
+  <div class="form-row p-3 ">
 
-    <p class="fs-5 mb-2 fw-bold text-danger">{{ profession }}</p>
+    <p class="fs-4 mb-2 fw-bold text-danger text-center">{{ profession }}</p>
 
-
-    <img :src="photo" class="form-out-img">
-
-
-    <p class="fs-5 form-input my-3">{{ surname }} {{name}} {{patronymic}}</p>
+    <div class="photo-border">
+      <img :src="photo" class="form-out-img ">
+    </div>
 
 
-    <p class="fs-5 form-input my-3">{{bDate}}</p>
+    <p class="fs-4 form-input my-3 text-center">{{ surname }} {{ name }} {{ patronymic }}</p>
 
-    <router-link :to="{ name: 'edit', params: {id: id} }" class=" fs-5 text-center nav-link text-danger fw-bolder">
-      Редактировать
-    </router-link>
+    <p class="fs-4 form-input my-3 text-center">{{ bDate }}</p>
 
 
   </div>
@@ -56,11 +52,11 @@ export default {
       required: false,
     }
   },
-  methods:{
+  methods: {
     clickCard(item) {
       // item.fixed = !item.fixed;
       console.log(1);
-      this.$router.push({ name: 'edit', params: { id: item.id } });
+      this.$router.push({name: 'edit', params: {id: item.id}});
     },
   }
 }
@@ -69,11 +65,10 @@ export default {
 <style scoped>
 .form-row {
   border: 4px solid rgba(214, 214, 214, .6);
-  margin: 10px 0 10px 0;
+  margin: 0 0 15px 0;
   border-radius: 6px;
   background: rgba(214, 214, 214, .6);
 }
-
 
 
 .form-input {
@@ -89,6 +84,8 @@ export default {
   max-height: 300px;
   object-fit: cover;
 }
-
+.photo-border{
+  border: 4px solid rgba(0, 0, 0, .1);
+}
 
 </style>

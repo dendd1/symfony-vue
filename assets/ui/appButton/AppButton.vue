@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex form-row justify-content-center align-items-center">
     <button
-        class="fs-5 w-100" style="border: none"
+        class="fs-4 w-100" style="border: none"
     >
       {{label}}
     </button>

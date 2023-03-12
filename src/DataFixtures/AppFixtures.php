@@ -70,6 +70,35 @@ class AppFixtures extends Fixture
 
 
 
+        $education_3 = new Education();
+        $education_3->setType('Высшее');
+        $education_3->setInstitution('ЛГГУ2');
+        $education_3->setFaculty('ФФAИИ');
+        $education_3->setSpecialization('Водитель Тарелок');
+        $education_3->setEnding('2007');
+
+        $manager->persist($education_3);
+
+
+
+        $resume_3 = new Resume();
+        $resume_3->setProfession('Пилот');
+        $resume_3->setCity('Москва');
+        $resume_3->setPhoto('https://sun9-9.userapi.com/impg/VfSKjgVfMte9TZnRquPzABoHo5NAMvyW0mlylg/8yaIUgDY3Lk.jpg?size=494x386&quality=96&sign=6d3ef574b70ad108f9fc4c3bb92f5666&type=album');
+        $resume_3->setSurname('Летаев');
+        $resume_3->setName('Денис');
+        $resume_3->setPatronymic('Анатольевич');
+        $resume_3->setPhone('88005553535');
+        $resume_3->setMail('grazy2@mail.ru');
+        $resume_3->setBDate('1979-10-10');
+        $resume_3->setMoney('400000');
+        $resume_3->setSkills('Езда вслепую');
+        $resume_3->setAbout('Знаю как изготавливать алтернативное топливо');
+        $resume_3->setStatus('Принят');
+        $resume_3->addEducation($education_3);
+
+        $manager->persist($resume_3);
+
 
         $manager->flush();
     }

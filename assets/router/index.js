@@ -12,7 +12,7 @@ const routes = [
         component: MainPage,
     },
     {
-        path: '/resume',
+        path: '/add',
         name: 'resume',
         component: ResumeView,
     },

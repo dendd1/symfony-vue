@@ -87,7 +87,7 @@ class HomeController extends AbstractController
     public function getResume(int $id, ResumeRepository $resumeRepository, EducationRepository $optionRepository): JsonResponse
     {
         $resume = $resumeRepository->find($id);
-        if ($resume->getId()) {
+        if ($resume) {
             $educations = [];
             foreach ($resume->getEducation() as $educationFromDB) {
                 $education = array(
@@ -121,9 +121,10 @@ class HomeController extends AbstractController
             return new JsonResponse([
                 'result' => $resumeArr
             ]);
-        } else {
+        }
+        else {
             return new JsonResponse([
-                'result' => 0
+                'result' => false
             ]);
         }
     }

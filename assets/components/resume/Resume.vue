@@ -5,29 +5,35 @@
     >
     </app-button>
   </router-link>
-  <div class="m-5">
-    <div class="row">
-      <div class="col-6">
-        <h1 class="fs-3 m-3">Заполните форму:</h1>
-        <!--Форма для ввода данных-->
 
-        <resume-form
-            @broadcast="broadcastResume"
-            @apply="apply"
-            @edit="edit"
-            :resume-from-d-b="resume"
-        />
+  <template v-if="!loading">
+    <div class="m-5">
+      <div class="row">
+        <div class="col-6">
+          <h1 class="fs-3 m-3">Заполните форму:</h1>
+
+
+          <resume-form
+              @broadcast="broadcastResume"
+              @apply="apply"
+              @edit="edit"
+              :resume-from-d-b="resume"
+          />
+        </div>
+
+        <div class="col-6">
+          <h1 class="fs-3 m-3">Ваше резюме</h1>
+
+
+          <resume-template :resume="resume"/>
+        </div>
+
       </div>
-      <!--Структура генерации и вывода информации в резюме-->
-      <div class="col-6">
-        <h1>Ваше резюме {{id}}</h1>
-
-
-        <resume-template :resume="resume"/>
-      </div>
-
     </div>
-  </div>
+  </template>
+
+  <app-spinner v-else/>
+
 </template>
 
 <script>
@@ -36,10 +42,11 @@ import ResumeForm from "./resumeForm/ResumeForm.vue";
 import ResumeTemplate from "./resumeTemplate/ResumeTemplate.vue";
 import AppButton from "../../ui/appButton/AppButton.vue";
 import {ResumeApi} from "../../api/resumeApi/ResumeApi";
+import AppSpinner from "../../ui/appSpinner/AppSpinner.vue";
 
 export default {
   name: "Resume",
-  components: {AppButton, ResumeForm, ResumeTemplate},
+  components: {AppSpinner, AppButton, ResumeForm, ResumeTemplate},
   props: {
     id: {
       type: String,
@@ -48,17 +55,13 @@ export default {
     },
   },
   created() {
-    if(this.id !== null){
+    if(this.id){
       this.loadResume(this.id)
     }
-
   },
   data() {
     return {
-      // Готовый присет заполнения формы
       resume: {
-
-
         profession: '',
         city: '',
         photo: '',
@@ -76,7 +79,8 @@ export default {
         about: '',
         status: 'Новый',
         isEdit: false,
-      }
+      },
+      loading: false,
 
     }
   },
@@ -102,13 +106,15 @@ export default {
 
     },
     async apply() {
-
+      this.loading=true;
       let result = await ResumeApi.postResume(this.resume);
       if (result) alert(`Резюме успешно добавлено!`);
       else alert(`Произошла неизвестная ошибка!`);
-
+      this.loading=false;
+      this.$router.push({name: 'main'});
     },
     async edit() {
+      this.loading=true;
       if(this.id !== null) {
         let result = await ResumeApi.editResume(this.id, this.resume);
         if (result) alert(`Резюме отредактировано!`);
@@ -117,11 +123,13 @@ export default {
       else{
         alert('id is null');
       }
+      this.loading=false;
+      this.$router.push({name: 'main'});
     },
     async loadResume(id) {
-
+      this.loading=true;
       let result = await ResumeApi.getResume(id);
-      if (result) {
+      if (result.result) {
         this.resume.profession = result.result.profession;
         this.resume.city = result.result.city;
         this.resume.photo = result.result.photo;
@@ -139,9 +147,18 @@ export default {
         this.resume.status = result.result.status;
         this.resume.isEdit = true;
       }
-      else alert(`Произошла неизвестная ошибка`);
+      else {
+        alert(`Произошла неизвестная ошибка`);
+        this.$router.push({name: 'main'});
+        }
 
+      this.loading=false;
 
+    },
+  },
+  watch: {
+    id(newValue) {
+      this.$router.push({name: 'edit', params: {id: this.id}});
     },
   },
 }

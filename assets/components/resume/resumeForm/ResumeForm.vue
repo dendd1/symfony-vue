@@ -252,23 +252,19 @@
     </app-input>
 
 
-    <app-button @click.stop="broadcastResume"
-    label="Загрузить резюме">
-
-    </app-button>
 
 
     <app-button
         v-if="!resume.isEdit"
         @click.stop="$emit('apply')"
-                label="Загрузить в бд">
+                label="Отправить">
 
     </app-button>
 
     <app-button
         v-if="resume.isEdit"
         @click.stop="$emit('edit')"
-        label="Обновить в бд">
+        label="Обновить">
 
     </app-button>
 
@@ -404,26 +400,7 @@ export default {
 </script>
 
 <style scoped>
-/*.form-row {*/
-/*  border: 4px solid rgba(214, 214, 214, .6);*/
-/*  margin: 10px 70px 10px 0;*/
-/*  border-radius: 6px;*/
-/*  background: rgba(214, 214, 214, .6);*/
-/*}*/
 
-/*.form-label {*/
-/*  height: 100%;*/
-/*  padding: 0 8px 0 8px;*/
-/*  white-space: nowrap;*/
-/*}*/
-
-/*.form-input {*/
-/*  background: white;*/
-/*  border-width: 0 !important;*/
-/*  width: 100%;*/
-/*  padding: 0 0 0 10px;*/
-/*  outline: 0 none;*/
-/*}*/
 
 .card-education {
   border: 4px solid rgba(214, 214, 214, .6);
@@ -431,19 +408,4 @@ export default {
   height: 400px;
 }
 
-/*.form-row-card-education {*/
-/*  border: 4px solid rgba(214, 214, 214, .6);*/
-/*  margin: 10px 40px 10px 40px;*/
-/*  border-radius: 6px;*/
-/*  background: rgba(214, 214, 214, .6);*/
-/*}*/
-
-/*.input-border-message {*/
-/*  background: #FFFFFF;*/
-/*  position: relative;*/
-/*  border-radius: 10px;*/
-/*  box-shadow: 3px 1px 50px rgb(122 122 122 / 25%);*/
-/*  max-height: 220px;*/
-/*  overflow-y: auto;*/
-/*}*/
 </style>
