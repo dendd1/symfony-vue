@@ -166,4 +166,19 @@ class HomeController extends AbstractController
 
 
     }
+    #[Route('/api/cv/{id}/status/update', name: 'edit_resume_status', methods: ['POST'])]
+    public function editResumeStatus(int $id, Request $request, ResumeRepository $resumeRepository): JsonResponse
+    {
+        $parameters = json_decode($request->getContent(), true);
+
+        $resume = $resumeRepository->find($id);
+
+        $resume->setStatus($parameters['status']);
+
+        $resumeRepository->save($resume, true);
+
+        return new JsonResponse([
+            'result' => $resume->getId(),
+        ]);
+    }
 }

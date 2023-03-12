@@ -16,10 +16,6 @@
       Редактировать
     </router-link>
 
-<!--    <app-button @click.stop="clickCard(id)"-->
-<!--                label="Редактировать">-->
-
-<!--    </app-button>-->
 
   </div>
 </template>
