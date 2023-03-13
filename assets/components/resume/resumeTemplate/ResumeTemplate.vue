@@ -1,3 +1,4 @@
+<!--Пример внешнего вида резюме-->
 <template>
   <div class="form-row p-3">
 

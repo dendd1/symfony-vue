@@ -35,6 +35,7 @@ class HomeController extends AbstractController
         return $this->render('base.html.twig');
     }
 
+    //добавление нового резюме
     #[Route('/api/cv/add', name: 'post_resume', methods: ['POST'])]
     public function postResume(Request $request, ResumeRepository $resumeRepository, EducationRepository $educationRepository): JsonResponse
     {
@@ -57,7 +58,7 @@ class HomeController extends AbstractController
             'result' => $resume->getId(),
         ]);
     }
-
+    //выгрузка всех резюме из бд
     #[Route('/api/cv', name: 'get_resume_list', methods: ['GET'])]
     public function getResumeList(ResumeRepository $resumeRepository, EducationRepository $optionRepository): JsonResponse
     {
@@ -82,7 +83,7 @@ class HomeController extends AbstractController
             'result' => $allResume,
         ]);
     }
-
+    //выгрузка данных определенного резюме
     #[Route('/api/cv/{id}', name: 'get_resume', methods: ['GET'])]
     public function getResume(int $id, ResumeRepository $resumeRepository, EducationRepository $optionRepository): JsonResponse
     {
@@ -128,7 +129,7 @@ class HomeController extends AbstractController
             ]);
         }
     }
-
+    //обновление конкретного резюме
     #[Route('/api/cv/{id}/edit', name: 'edit_resume', methods: ['POST'])]
     public function editResume(int $id, Request $request, ResumeRepository $resumeRepository, EducationRepository $educationRepository): JsonResponse
     {
@@ -167,6 +168,7 @@ class HomeController extends AbstractController
 
 
     }
+    //обновление статуса у резюме
     #[Route('/api/cv/{id}/status/update', name: 'edit_resume_status', methods: ['POST'])]
     public function editResumeStatus(int $id, Request $request, ResumeRepository $resumeRepository): JsonResponse
     {

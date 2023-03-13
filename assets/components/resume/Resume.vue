@@ -1,3 +1,4 @@
+<!--Панель редактирования резюме с формой и представлением-->
 <template>
   <router-link :to="{ name: 'main' }" class="nav-link text-secondary fw-bolder pt-5 px-5">
     <app-button

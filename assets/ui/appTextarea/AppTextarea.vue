@@ -1,3 +1,7 @@
+<!--Текст-зона
+принмиает тип, значение и заголовок
+передает данные в родительский компонент при изменении
+-->
 <template>
   <div class="d-flex form-row justify-content-center align-items-center">
 

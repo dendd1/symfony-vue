@@ -1,3 +1,4 @@
+<!--Главная страница-->
 <template>
   <router-link :to="{ name: 'resume' }" class="nav-link text-secondary fw-bolder p-5">
     <app-button
